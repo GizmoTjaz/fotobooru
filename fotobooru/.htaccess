@@ -1,0 +1,19 @@
+Options -Indexes
+
+RewriteEngine on
+
+# Append .php to API calls
+RewriteRule ^api(\/.*)?$ api.php$1 [L]
+
+# Allow extensionless PHP scripts
+# RewriteCond %{REQUEST_FILENAME}.php -f
+# RewriteRule ^(.+)$ $1.php [L]
+
+# Redirect to front-end
+RewriteRule ^(favicon.png)$ /frontend/build/$1 [L]
+RewriteRule ^$ /frontend/build/200.html [L]
+RewriteRule ^_app(.+)$ /frontend/build/_app$1 [L]
+# RewriteRule ^200\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /frontend/build/200.html [L]

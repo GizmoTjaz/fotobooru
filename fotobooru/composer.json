@@ -1,0 +1,6 @@
+{
+    "require": {
+        "godruoyi/php-snowflake": "^3.1",
+        "dflydev/apache-mime-types": "^1.0"
+    }
+}

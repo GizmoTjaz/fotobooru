@@ -1,0 +1,39 @@
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+
+  apache:
+    container_name: apache
+    build: ./php/
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 8008:80
+    volumes:
+      - ./fotobooru:/var/www/html:ro
+      - ./fotobooru/uploads:/var/www/html/uploads:rw
+    depends_on:
+      - sql
+    networks:
+      - app-network
+
+  sql:
+    container_name: db
+    image: mariadb:11
+    restart: unless-stopped
+    tty: true
+    environment:
+      MARIADB_DATABASE: booru
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
